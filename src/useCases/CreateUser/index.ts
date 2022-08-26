@@ -3,7 +3,7 @@ import { PostgresUsersRespository } from "../../repositories/implementations/Pos
 import { CreateUserController } from "./CreateUserController";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
-const postgresUsersRespository = new PostgresUsersRespository()
+const postgresUsersRespository = PostgresUsersRespository.Instance
 const mailtrapMailProvider = new MailtrapMailProvider()
 
 const createUserUserCase = new CreateUserUseCase(

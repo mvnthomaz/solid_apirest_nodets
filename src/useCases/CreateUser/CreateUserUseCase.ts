@@ -1,7 +1,7 @@
 import { User } from "../../entities/User";
 import { IMailProvider } from "../../providers/IMailProvider";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
-import { ICreateUserRequestDTO } from "./CreateUserDTO";
+import { ICreateUserDTO } from "./ICreateUserDTO";
 
 export class CreateUserUseCase {
     constructor(
@@ -9,7 +9,7 @@ export class CreateUserUseCase {
         private mailProvider: IMailProvider
     ) {}
 
-    async execute(data: ICreateUserRequestDTO) {
+    async execute(data: ICreateUserDTO) {
         const userAlreadyExist = await this.userRepository.findByEmail(data.email);
 
         if (userAlreadyExist) {
@@ -17,7 +17,6 @@ export class CreateUserUseCase {
         }
 
         const user = new User(data);
-
         await this.userRepository.save(user);
         await this.mailProvider.sendMessage({
             to: {
@@ -30,6 +29,6 @@ export class CreateUserUseCase {
             },
             subject: "Olá, parabéns pelo cadastro!",
             body: "<p>Bem-vindo ao Meu App, " + user.name + "<br /><br /> Você já pode fazer login na plataforma.</p>"
-        })
+        });
     }
 }
